@@ -1,0 +1,41 @@
+buildscript {
+    repositories {
+        jcenter()
+        mavenLocal()
+        maven { url 'http://dl.bintray.com/jetbrains/intellij-plugin-service' }
+    }
+}
+
+plugins {
+    id "de.undercouch.download" version "3.2.0"
+    id "org.jetbrains.intellij" version "0.2.5"
+    id 'java'
+    id 'idea'
+    id 'pmd'
+}
+
+ext {
+    gradleDir = "$rootDir/gradle"
+    thirdPartyDir = "$rootDir/3rd-party"
+    javaVersion = "1.8"
+
+    jflexUrl = "https://github.com/JetBrains/intellij-community/raw/master/tools/lexer/jflex-1.7.0-SNAPSHOT.jar"
+    psiViewerUrl = "https://plugins.jetbrains.com/plugin/download?updateId=31087"
+
+    intellijIdeaVersion = "LATEST-TRUNK-SNAPSHOT"
+    intellijIdeaDownloadSources = true
+
+    gradleWrapperVersion = "3.4.1"
+}
+
+group 'com.codingmates'
+version '1.0-SNAPSHOT'
+
+apply from: "$gradleDir/java.gradle"
+apply from: "$gradleDir/pmd.gradle"
+apply from: "$gradleDir/idea.gradle"
+apply from: "$gradleDir/intellij-platform.gradle"
+
+task generateWrapper(type: Wrapper) {
+    gradleVersion = gradleWrapperVersion
+}

@@ -1,0 +1,8 @@
+/out/
+/build/
+/gen/
+/.gradle/
+/.idea/
+/gradlew
+/gradlew.bat
+/gradle/wrapper/

@@ -1,0 +1,28 @@
+package com.codingmates.intellij.selinux.cil.lang.core.psi.api;
+
+public enum CilDeclarationType {
+    TYPE,
+    TYPEALIAS,
+    TYPEATTRIBUTE,
+    TYPEPERMISSIVE,
+    ROLE,
+    ROLEATTRIBUTE,
+    USER,
+    USERATTRIBUTE,
+    CLASSPERMISSION,
+    SENSITIVITY,
+    SENSITIVITYALIAS,
+    CATEGORY,
+    CLASSMAP,
+    CLASS,
+    COMMON,
+    CONTEXT,
+    CATEGORYALIAS,
+    BLOCK,
+    SID,
+    INITIALSID,
+    LEVEL,
+    LEVELRANGE,
+    BOOLEAN,
+    TUNABLE, MACRO, OPTIONAL, COMMON_ITEM, CLASS_ITEM, CLASSMAPPING_ITEM;
+}

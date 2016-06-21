@@ -1,0 +1,21 @@
+pmd {
+    ruleSets = [
+            "java-basic",
+            "java-braces",
+            "java-naming",
+            "java-codesize",
+            "java-controversial",
+            "java-design",
+            "java-finalizers",
+            "java-imports",
+            "java-junit",
+            "java-logging-jakarta-commons",
+            "java-logging-java",
+            "java-migrating",
+            "java-optimizations",
+            "java-strictexception",
+            "java-strings",
+    ]
+
+    pmdMain.exclude '**/com/codingmates/secil/lang/core/lexer/CilLexer.java'
+}

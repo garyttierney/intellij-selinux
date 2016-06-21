@@ -1,0 +1,62 @@
+<idea-plugin>
+    <id>com.codingmates.secil</id>
+    <name>SELinux CIL</name>
+    <version>1.0</version>
+    <vendor email="gary.tierney@gmx.com" url="https://codingmates.com/">Codingmates</vendor>
+
+    <description><![CDATA[
+      Enter short description for your plugin here.<br>
+      <em>most HTML tags may be used</em>
+    ]]></description>
+
+    <change-notes><![CDATA[
+      Add change notes here.<br>
+      <em>most HTML tags may be used</em>
+    ]]>
+    </change-notes>
+
+    <idea-version since-build="141.0"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <fileTypeFactory implementation="com.codingmates.intellij.selinux.cil.lang.core.CilFileTypeFactory"/>
+        <lang.parserDefinition language="cil"
+                               implementationClass="com.codingmates.intellij.selinux.cil.lang.core.parser.CilParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="cil"
+                                       implementationClass="com.codingmates.intellij.selinux.cil.lang.core.syntax.CilSyntaxHighlighterFactory"/>
+        <lang.psiStructureViewFactory language="cil"
+                                      implementationClass="com.codingmates.intellij.selinux.cil.ide.structure.CilStructureViewFactory"/>
+        <annotator language="cil"
+                   implementationClass="com.codingmates.intellij.selinux.cil.lang.core.syntax.CilSyntaxAnnotator"/>
+
+        <stubIndex implementation="com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilAllNamesIndex"/>
+
+        <lang.braceMatcher language="cil"
+                           implementationClass="com.codingmates.intellij.selinux.cil.lang.core.CilParenthesisPairMatcher"/>
+        <lang.elementManipulator forClass="com.codingmates.intellij.selinux.cil.lang.core.psi.impl.CilStringExpressionImpl"
+                                 implementationClass="com.codingmates.intellij.selinux.cil.lang.core.psi.CilStringLiteralManipulator"/>
+
+        <lang.findUsagesProvider language="cil"
+                                 implementationClass="com.codingmates.intellij.selinux.cil.ide.findUsages.CilFindUsagesProvider"/>
+        <languageInjector
+                implementation="com.codingmates.intellij.selinux.cil.lang.core.psi.CilStringLiteralRegexInjector"/>
+
+        <gotoSymbolContributor implementation="com.codingmates.intellij.selinux.cil.ide.go.CilGoToSymbolContributor"/>
+
+        <!-- register a module type for CIL so we can create source based CIL projects -->
+        <moduleType id="CIL_MODULE"
+                    implementationClass="com.codingmates.intellij.selinux.cil.ide.project.CilProjectModuleType"/>
+
+        <localInspection language="cil" displayName="Unresolved reference" groupPath="CIL"
+                         groupName="Unresolved" enabledByDefault="true" level="ERROR"
+                         implementationClass="com.codingmates.intellij.selinux.cil.ide.inspections.CilUnresolvedReferenceInspection"/>
+        <!--<codeInsight.lineMarkerProvider language="cil"-->
+        <!--implementationClass="com.codingmates.secil.lang.core.codeinsight.CilNamespaceMarkerProvider"/>-->
+        <!--<codeInsight.lineMarkerProvider language="cil"-->
+        <!--implementationClass="com.codingmates.secil.lang.core.codeinsight.CilBlockInheritanceMarkerProvider"/>-->
+    </extensions>
+
+    <actions>
+        <!-- Add your actions here -->
+    </actions>
+
+</idea-plugin>

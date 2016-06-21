@@ -1,0 +1,10 @@
+idea {
+    project {
+        jdkName = javaVersion
+        languageLevel = javaVersion
+    }
+
+    module {
+        generatedSourceDirs += file('gen')
+    }
+}

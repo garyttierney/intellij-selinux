@@ -1,0 +1,59 @@
+import de.undercouch.gradle.tasks.download.Download
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'de.undercouch:gradle-download-task:3.2.0'
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+sourceSets {
+    main {
+        java.srcDirs 'src/main/java', 'gen'
+        resources.srcDirs 'src/main/resources'
+    }
+
+    test {
+        java.srcDir 'src/test/java'
+        resources.srcDirs 'src/test/resources'
+    }
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}
+
+task downloadLexerGenerator(type: Download) {
+    src jflexUrl
+    dest new File(thirdPartyDir, 'jflex-SNAPSHOT.jar')
+}
+
+task generateCilLexer(type: JavaExec) {
+    dependsOn(downloadLexerGenerator)
+
+    def src = "$rootDir/src/main/jflex/secil.jflex"
+    def dst = "$rootDir/gen/com/codingmates/intellij/selinux/cil/lang/core/lexer"
+
+    main = 'jflex.Main'
+    classpath = files("${thirdPartyDir}/jflex-SNAPSHOT.jar")
+
+    args = ["--skel", "$rootDir/src/main/jflex/flex.skeleton",
+            "-d", dst,
+            src
+    ]
+
+    inputs.file file(src)
+    outputs.dir file("$dst/CilLexer.java")
+}
+
+compileJava {
+    dependsOn(generateCilLexer)
+}
+
