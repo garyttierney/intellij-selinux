@@ -10,8 +10,8 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.CONTEXT_DECLARATION;
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.SID_DECLARATION;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.CONTEXT_DECLARATION;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.SID_DECLARATION;
 
 public class CilSidContextImpl extends CilCompositeElementBase implements CilSidContext {
 

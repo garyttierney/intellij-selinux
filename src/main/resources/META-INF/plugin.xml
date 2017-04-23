@@ -29,6 +29,7 @@
                    implementationClass="com.codingmates.intellij.selinux.cil.lang.core.syntax.CilSyntaxAnnotator"/>
 
         <stubIndex implementation="com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilAllNamesIndex"/>
+        <stubIndex implementation="com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilInScopeIndex"/>
 
         <lang.braceMatcher language="cil"
                            implementationClass="com.codingmates.intellij.selinux.cil.lang.core.CilParenthesisPairMatcher"/>

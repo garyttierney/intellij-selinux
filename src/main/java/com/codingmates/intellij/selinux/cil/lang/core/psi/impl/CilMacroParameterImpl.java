@@ -2,6 +2,7 @@ package com.codingmates.intellij.selinux.cil.lang.core.psi.impl;
 
 import com.codingmates.intellij.selinux.cil.lang.core.CilTokenTypes;
 import com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap;
+import com.codingmates.intellij.selinux.cil.lang.core.CilTypes;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilMacroParameter;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilDeclarationElementBase;
 import com.intellij.lang.ASTNode;
@@ -21,7 +22,7 @@ public class CilMacroParameterImpl extends CilDeclarationElementBase implements 
 
         return CilTopLevelElementTypeMap.get(typeValue)
                 .map(type -> (IElementType) type)
-                .orElse(CilTopLevelElementTypeMap.TYPE_DECLARATION);
+                .orElse(CilTypes.TYPE_DECLARATION);
     }
 
     @Override

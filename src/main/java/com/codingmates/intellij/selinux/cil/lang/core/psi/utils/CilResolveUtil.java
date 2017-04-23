@@ -4,6 +4,7 @@ import com.codingmates.intellij.selinux.cil.lang.core.psi.api.*;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilCompositeElement;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilDeclarationElement;
 import com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilAllNamesIndex;
+import com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilInScopeIndex;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.ResolveState;
@@ -13,12 +14,9 @@ import com.intellij.psi.stubs.StubIndex;
 import com.intellij.psi.util.PsiTreeUtil;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Optional;
-import java.util.Queue;
+import java.util.*;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.BLOCKINHERIT_STATEMENT;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.BLOCKINHERIT_STATEMENT;
 
 /**
  * Utilities for resolving references and walking namespace trees.
@@ -145,6 +143,30 @@ public final class CilResolveUtil {
                 PsiElement block = blockReference.resolve();
 
                 if (block != null && !walkScope(processor, block, true)) {
+                    return false;
+                }
+            }
+        }
+
+        if (scope instanceof CilBlockDeclaration) {
+            CilBlockDeclaration blockDeclaration = (CilBlockDeclaration) scope;
+            PsiElement blockNameElement = blockDeclaration.getNameIdentifier();
+            String blockName = blockNameElement.getText();
+
+            Project project = blockDeclaration.getProject();
+
+            Collection<CilInScope> inScope = StubIndex.getElements(CilInScopeIndex.KEY,
+                    blockNameElement.getText(), project, GlobalSearchScope.allScope(project),
+                    CilInScope.class);
+
+            for (CilInScope namespace : inScope) {
+                CilReferenceExpression namespaceReferenceExpr = namespace.getNamespaceReference();
+
+                if (!namespaceReferenceExpr.isReferenceTo(blockDeclaration)) {
+                    continue;
+                }
+
+                if (!walkScope(processor, namespace, true)) {
                     return false;
                 }
             }

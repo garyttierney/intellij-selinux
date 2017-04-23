@@ -13,8 +13,8 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.Optional;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.ROLETRANSITION_STATEMENT;
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.ROLE_DECLARATION;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.ROLETRANSITION_STATEMENT;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.ROLE_DECLARATION;
 import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.*;
 
 public class CilTransitionRuleImpl extends CilCompositeElementBase implements CilTransitionRule,
@@ -42,9 +42,9 @@ public class CilTransitionRuleImpl extends CilCompositeElementBase implements Ci
         switch (childOffset) {
             case SOURCE_OFFSET:
             case TARGET_OFFSET:
-                return isRoleTransition ? ROLE_SET_DECLARATIONS : TYPE_SET_DECLARATIONS;
+                return isRoleTransition ? ROLE_SET_REFERENCE : TYPE_SET_REFERENCE;
             case OBJECT_CLASS_OFFSET:
-                return ACCESS_VECTOR_DECLARATIONS;
+                return ACCESS_VECTOR_REFERENCE;
             case OPTIONAL_OBJECT_NAME_OFFSET:
                 if (objectName.isPresent()) {
                     return CilReferenceRole.empty();
@@ -52,7 +52,7 @@ public class CilTransitionRuleImpl extends CilCompositeElementBase implements Ci
             default:
                 if (childOffset == adjustedResultOffset) {
                     return isRoleTransition ? CilReferenceRole.match(ROLE_DECLARATION)
-                            : TYPE_DECLARATIONS;
+                            : TYPE_OR_ALIAS_REFERENCE;
                 }
 
                 throw new IllegalArgumentException("Invalid child offset");

@@ -10,7 +10,7 @@ import com.intellij.psi.PsiLanguageInjectionHost;
 import org.intellij.lang.regexp.RegExpLanguage;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.FILECON_STATEMENT;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.FILECON_STATEMENT;
 
 public final class CilStringLiteralRegexInjector implements LanguageInjector {
 

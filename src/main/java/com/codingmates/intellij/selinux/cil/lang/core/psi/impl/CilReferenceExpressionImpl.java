@@ -12,9 +12,8 @@ import com.codingmates.intellij.selinux.cil.lang.core.psi.utils.CilPsiUtils;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.utils.CilResolveUtil;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiElementResolveResult;
-import com.intellij.psi.ResolveResult;
 import com.intellij.psi.ResolveState;
+import com.intellij.psi.impl.source.resolve.ResolveCache;
 import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
 import com.intellij.psi.util.PsiTreeUtil;
@@ -22,17 +21,27 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.BLOCK_DECLARATION_REF;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.CONTAINER_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.BLOCK_REFERENCE;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.CONTAINER_REFERENCE;
 
 public class CilReferenceExpressionImpl extends CilReferenceElementBase implements
         CilReferenceExpression {
 
-    public static final String INVALID_REF_ERROR = "Found a reference (type=%s) without a parent (type=%s) providing reference roles";
+    private static final ResolveCache.AbstractResolver<CilReferenceExpression, PsiElement> MY_RESOLVER =
+            (expr, incompleteCode) -> {
+                PsiElement[] results = expr.tryResolve(incompleteCode);
+
+                if (results.length > 0) {
+                    return results[0];
+                }
+
+                return null;
+            };
+
+    private static final String INVALID_REF_ERROR = "Found a reference (type=%s) without a parent (type=%s) providing reference roles";
 
     public CilReferenceExpressionImpl(@NotNull ASTNode node) {
         super(node);
@@ -85,7 +94,7 @@ public class CilReferenceExpressionImpl extends CilReferenceElementBase implemen
     @Override
     public CilReferenceRole getRole() {
         if (isQualifier()) {
-            return BLOCK_DECLARATION_REF;
+            return BLOCK_REFERENCE;
         }
 
         CilCompositeElement parent = (CilCompositeElement) getParent();
@@ -120,19 +129,15 @@ public class CilReferenceExpressionImpl extends CilReferenceElementBase implemen
         return parent.getElementType() == CilTypes.REFERENCE_EXPR;
     }
 
-    @NotNull
-    @Override
-    public ResolveResult[] multiResolve(boolean incompleteCode) {
-        return Arrays.stream(tryResolve(incompleteCode))
-                .map(PsiElementResolveResult::new)
-                .toArray(ResolveResult[]::new);
-    }
-
     @Nullable
     @Override
     public PsiElement resolve() {
-        ResolveResult[] results = multiResolve(false);
-        return results.length > 0 ? results[0].getElement() : null;
+        if (!isValid()) {
+            return null;
+        }
+
+        ResolveCache resolveCache = ResolveCache.getInstance(getProject());
+        return resolveCache.resolveWithCaching(this, MY_RESOLVER, true, false);
     }
 
     @NotNull
@@ -164,7 +169,7 @@ public class CilReferenceExpressionImpl extends CilReferenceElementBase implemen
 
         boolean isGlobalReference = isGlobalReference();
         boolean isQualified = isQualified();
-        boolean searchInherited = nameRole != BLOCK_DECLARATION_REF && nameRole != CONTAINER_DECLARATIONS;
+        boolean searchInherited = nameRole != BLOCK_REFERENCE && nameRole != CONTAINER_REFERENCE;
 
         if (isGlobalReference) {
             CilResolveUtil.walkGlobalScope(processor, parent, nameElement, searchInherited);

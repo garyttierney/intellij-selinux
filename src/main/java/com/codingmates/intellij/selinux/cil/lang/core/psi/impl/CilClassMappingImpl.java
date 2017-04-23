@@ -11,8 +11,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.*;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.ACCESS_VECTOR_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.ACCESS_VECTOR_REFERENCE;
 
 public class CilClassMappingImpl extends CilCompositeElementBase implements CilClassMapping {
 
@@ -33,13 +32,13 @@ public class CilClassMappingImpl extends CilCompositeElementBase implements CilC
     public CilReferenceRole getChildRole(IElementType childType, int childOffset) {
         switch (childOffset) {
             case CLASSMAP_OFFSET:
-                return CilReferenceRole.match(CLASSMAP_DECLARATION);
+                return CilReferenceRole.match(CilTypes.CLASSMAP_DECLARATION);
             case CLASSMAP_CHILD_OFFSET:
-                return CilReferenceRole.match(CLASS_DECLARATION); //@todo - fix this
+                return CilReferenceRole.match(CilTypes.CLASS_DECLARATION); //@todo - fix this
             case ACCESS_VECTOR_OFFSET:
                 return childType == CilTypes.REFERENCE_EXPR ?
-                        CilReferenceRole.match(CLASSPERMISSION_DECLARATION) :
-                        ACCESS_VECTOR_DECLARATIONS;
+                        CilReferenceRole.match(CilTypes.CLASSPERMISSION_DECLARATION) :
+                        ACCESS_VECTOR_REFERENCE;
             default:
                 throw new IllegalArgumentException("Invalid child offset");
         }

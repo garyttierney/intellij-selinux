@@ -1,5 +1,6 @@
 package com.codingmates.intellij.selinux.cil.lang.core.psi.impl;
 
+import com.codingmates.intellij.selinux.cil.lang.core.CilTypes;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilContextExpression;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceExpression;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRole;
@@ -10,8 +11,7 @@ import com.intellij.lang.ASTNode;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.*;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_OR_ALIAS_REFERENCE;
 
 public class CilContextExpressionImpl extends CilCompositeElementBase implements
         CilContextExpression {
@@ -29,13 +29,13 @@ public class CilContextExpressionImpl extends CilCompositeElementBase implements
     public CilReferenceRole getChildRole(IElementType childType, int childOffset) {
         switch (childOffset) {
             case USER_OFFSET:
-                return CilReferenceRole.match(USER_DECLARATION);
+                return CilReferenceRole.match(CilTypes.USER_DECLARATION);
             case ROLE_OFFSET:
-                return CilReferenceRole.match(ROLE_DECLARATION);
+                return CilReferenceRole.match(CilTypes.ROLE_DECLARATION);
             case TYPE_OFFSET:
-                return TYPE_DECLARATIONS;
+                return TYPE_OR_ALIAS_REFERENCE;
             case LEVEL_RANGE_OFFSET:
-                return CilReferenceRole.match(LEVELRANGE_DECLARATION);
+                return CilReferenceRole.match(CilTypes.LEVELRANGE_DECLARATION);
             default:
                 throw new IllegalArgumentException("Invalid child offset");
         }

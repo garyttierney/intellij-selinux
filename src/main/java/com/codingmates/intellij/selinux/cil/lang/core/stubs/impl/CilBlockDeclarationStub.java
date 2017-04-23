@@ -6,13 +6,13 @@ import com.intellij.psi.stubs.StubElement;
 import com.intellij.util.io.StringRef;
 import org.jetbrains.annotations.NotNull;
 
-public class CilBlockStub extends CilNamedElementStub<CilBlockDeclaration> {
+public class CilBlockDeclarationStub extends CilNamedElementStub<CilBlockDeclaration> {
 
-    public CilBlockStub(StubElement parent, @NotNull IStubElementType elementType, StringRef name) {
+    public CilBlockDeclarationStub(StubElement parent, @NotNull IStubElementType elementType, StringRef name) {
         super(parent, elementType, name);
     }
 
-    public CilBlockStub(StubElement parent, @NotNull IStubElementType elementType, String name) {
+    public CilBlockDeclarationStub(StubElement parent, @NotNull IStubElementType elementType, String name) {
         super(parent, elementType, name);
     }
 

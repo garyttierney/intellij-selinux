@@ -409,7 +409,7 @@ final class CilStatementParser {
                 case CLASS_MAPPING: parseClassMapping(); break;
                 case CONSTRAIN: parseConstrain(); break;
                 case CONTEXT_DECLARATION: parseContextDeclaration(); break;
-                case NAMED_CONTAINER: parseContainer(type == CilTopLevelElementTypeMap.IN_STATEMENT); break;
+                case NAMED_CONTAINER: parseContainer(type == IN_STATEMENT); break;
                 case FILE_CONTEXT: parseFileContext(); break;
                 case LEVEL_DECLARATION: parseLevelDeclaration(); break;
                 case LEVEL_RANGE_DECLARATION: parseLevelRangeDeclaration(); break;

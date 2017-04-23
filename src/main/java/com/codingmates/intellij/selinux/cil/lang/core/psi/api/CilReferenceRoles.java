@@ -2,46 +2,37 @@ package com.codingmates.intellij.selinux.cil.lang.core.psi.api;
 
 import com.intellij.psi.tree.IElementType;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.*;
+import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.*;
 
 public final class CilReferenceRoles {
+    private CilReferenceRoles() {
 
-    public static final CilReferenceRole ACCESS_VECTOR_DECLARATIONS = type ->
-            type == CLASS_DECLARATION ||
-                    type == CLASSMAP_DECLARATION || type == CLASSPERMISSION_DECLARATION;
-    public static final CilReferenceRole CATEGORYALIAS_REFERENCE = type -> type
-            == CATEGORYALIAS_DECLARATION;
-    public static final CilReferenceRole CATEGORY_DECLARATIONS = type ->
-            type == CATEGORY_DECLARATION ||
-                    type == CATEGORYALIAS_DECLARATION;
-    public static final CilReferenceRole CATEGORY_REFERENCE = type -> type == CATEGORY_DECLARATION;
-    public static final CilReferenceRole CLASS_REFERENCE = type -> type == CLASS_DECLARATION;
-    public static final CilReferenceRole COMMON_REFERENCE = type -> type == COMMON_DECLARATION;
-    public static final CilReferenceRole BLOCK_DECLARATION_REF = type -> type == BLOCK_DECLARATION;
-    public static final CilReferenceRole CONTAINER_DECLARATIONS = type -> type == BLOCK_DECLARATION ||
-            type == MACRO_DECLARATION || type == OPTIONAL_DECLARATION;
-    public static final CilReferenceRole CONTEXT_REFERENCE = type -> type == CONTEXT_DECLARATION;
-    public static final CilReferenceRole MACRO_REFERENCE = type -> type == MACRO_DECLARATION;
-    public static final CilReferenceRole ROLE_REFERENCE = type -> type == ROLE_DECLARATION;
-    public static final CilReferenceRole ROLE_SET_DECLARATIONS = type -> type == ROLE_DECLARATION ||
-            type == ROLEATTRIBUTE_DECLARATION;
-    public static final CilReferenceRole SENSITIVITY_DECLARATIONS = type ->
-            type == SENSITIVITY_DECLARATION ||
-                    type == SENSITIVITYALIAS_DECLARATION;
-    public static final CilReferenceRole SENSITIVITY_REFERENCE = type -> type
-            == SENSITIVITY_DECLARATION;
-    public static final CilReferenceRole TYPE_DECLARATIONS = type -> type == TYPE_DECLARATION ||
-            type == TYPEALIAS_DECLARATION;
-    public static final CilReferenceRole TYPE_SET_DECLARATIONS = type -> type == TYPE_DECLARATION ||
-            type == TYPEALIAS_DECLARATION || type == TYPEATTRIBUTE_DECLARATION;
+    }
+
+    public static final CilReferenceRole ACCESS_VECTOR_REFERENCE = new CilReferenceRole(CLASS_DECLARATION, CLASSMAP_DECLARATION, CLASSPERMISSION_DECLARATION);
+    public static final CilReferenceRole CATEGORYALIAS_REFERENCE = new CilReferenceRole(CATEGORYALIAS_DECLARATION);
+    public static final CilReferenceRole CATEGORY_OR_ALIAS_REFERENCE = new CilReferenceRole(CATEGORY_DECLARATION, CATEGORYALIAS_DECLARATION);
+    public static final CilReferenceRole CATEGORY_REFERENCE = new CilReferenceRole(CATEGORY_DECLARATION);
+    public static final CilReferenceRole CLASS_REFERENCE = new CilReferenceRole(CLASS_DECLARATION);
+    public static final CilReferenceRole COMMON_REFERENCE = new CilReferenceRole(COMMON_DECLARATION);
+    public static final CilReferenceRole BLOCK_REFERENCE = new CilReferenceRole(BLOCK_DECLARATION);
+    public static final CilReferenceRole CONTAINER_REFERENCE = new CilReferenceRole(BLOCK_DECLARATION, MACRO_DECLARATION, OPTIONAL_DECLARATION);
+    public static final CilReferenceRole CONTEXT_REFERENCE = new CilReferenceRole(CONTEXT_DECLARATION);
+    public static final CilReferenceRole MACRO_REFERENCE = new CilReferenceRole(MACRO_DECLARATION);
+    public static final CilReferenceRole ROLE_REFERENCE = new CilReferenceRole(ROLE_DECLARATION);
+    public static final CilReferenceRole ROLE_SET_REFERENCE = new CilReferenceRole(ROLE_DECLARATION, ROLEATTRIBUTE_DECLARATION);
+    public static final CilReferenceRole SENSITIVITY_OR_ALIAS_REFERENCE = new CilReferenceRole(SENSITIVITY_DECLARATION, SENSITIVITYALIAS_DECLARATION);
+    public static final CilReferenceRole SENSITIVITY_REFERENCE = new CilReferenceRole(SENSITIVITY_DECLARATION);
+    public static final CilReferenceRole TYPE_OR_ALIAS_REFERENCE = new CilReferenceRole(TYPE_DECLARATION, TYPEALIAS_DECLARATION);
+    public static final CilReferenceRole TYPE_SET_REFERENCE = new CilReferenceRole(TYPE_DECLARATION, TYPEALIAS_DECLARATION, TYPEATTRIBUTE_DECLARATION);
 
     public static CilReferenceRole declarationsLike(IElementType type) {
         if (type == TYPEATTRIBUTE_DECLARATION) {
-            return TYPE_SET_DECLARATIONS;
+            return TYPE_SET_REFERENCE;
         } else if (type == ROLEATTRIBUTE_DECLARATION) {
-            return ROLE_SET_DECLARATIONS;
+            return ROLE_SET_REFERENCE;
         } else if (type == CLASSPERMISSION_DECLARATION) {
-            return ACCESS_VECTOR_DECLARATIONS;
+            return ACCESS_VECTOR_REFERENCE;
         } else {
             throw new IllegalArgumentException("Invalid argument");
         }

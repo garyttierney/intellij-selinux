@@ -7,14 +7,11 @@ import com.intellij.lang.ASTNode;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiElementVisitor;
-import com.intellij.psi.PsiPolyVariantReference;
 import com.intellij.psi.PsiReference;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
-public abstract class CilReferenceElementBase extends CilCompositeElementBase implements
-        PsiPolyVariantReference,
-        PsiElement {
+public abstract class CilReferenceElementBase extends CilCompositeElementBase implements PsiReference, PsiElement {
 
     public CilReferenceElementBase(@NotNull ASTNode node) {
         super(node);

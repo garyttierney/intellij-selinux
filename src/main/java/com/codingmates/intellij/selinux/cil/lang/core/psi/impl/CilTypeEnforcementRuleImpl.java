@@ -12,8 +12,8 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.ACCESS_VECTOR_DECLARATIONS;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_SET_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.ACCESS_VECTOR_REFERENCE;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_SET_REFERENCE;
 
 public class CilTypeEnforcementRuleImpl extends CilCompositeElementBase implements
         CilTypeEnforcementRule {
@@ -36,9 +36,9 @@ public class CilTypeEnforcementRuleImpl extends CilCompositeElementBase implemen
         switch (childOffset) {
             case SOURCE_REFERENCE_OFFSET:
             case TARGET_REFERENCE_OFFSET:
-                return TYPE_SET_DECLARATIONS;
+                return TYPE_SET_REFERENCE;
             case ACCESS_VECTOR_EXPR_OFFSET:
-                return ACCESS_VECTOR_DECLARATIONS;
+                return ACCESS_VECTOR_REFERENCE;
             default:
                 throw new IllegalArgumentException("Invalid child offset " + childOffset);
         }

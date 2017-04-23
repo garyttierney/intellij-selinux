@@ -6,15 +6,11 @@ import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRole;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilCompositeElementBase;
 import com.google.common.base.Preconditions;
 import com.intellij.lang.ASTNode;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.psi.tree.IElementType;
 import org.jetbrains.annotations.NotNull;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.CilTopLevelElementTypeMap.*;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.BLOCK_DECLARATION_REF;
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.BLOCK_REFERENCE;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_OR_ALIAS_REFERENCE;
 
 public class CilNameModifierImpl extends CilCompositeElementBase implements
         com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilNameModifier {
@@ -31,10 +27,10 @@ public class CilNameModifierImpl extends CilCompositeElementBase implements
 
         IElementType type = getElementType();
 
-        if (type == BLOCKABSTRACT_STATEMENT || type == BLOCKINHERIT_STATEMENT) {
-            return BLOCK_DECLARATION_REF;
-        } else if (type == TYPEPERMISSIVE_STATEMENT) {
-            return TYPE_DECLARATIONS;
+        if (type == CilTypes.BLOCKABSTRACT_STATEMENT || type == CilTypes.BLOCKINHERIT_STATEMENT) {
+            return BLOCK_REFERENCE;
+        } else if (type == CilTypes.TYPEPERMISSIVE_STATEMENT) {
+            return TYPE_OR_ALIAS_REFERENCE;
         } else {
             throw new IllegalStateException("Invalid modifier type");
         }

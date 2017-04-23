@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.Arrays;
 import java.util.List;
 
-import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_SET_DECLARATIONS;
+import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRoles.TYPE_SET_REFERENCE;
 
 public class CilCallArgumentListImpl extends CilCompositeElementBase implements
         CilCallArgumentList {
@@ -28,6 +28,6 @@ public class CilCallArgumentListImpl extends CilCompositeElementBase implements
     @Override
     public CilReferenceRole getChildRole(IElementType childType, int childOffset) {
         //@todo - resolve from macro arguments
-        return TYPE_SET_DECLARATIONS;
+        return TYPE_SET_REFERENCE;
     }
 }
