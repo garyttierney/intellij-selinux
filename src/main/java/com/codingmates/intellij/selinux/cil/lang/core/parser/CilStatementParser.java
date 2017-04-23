@@ -18,12 +18,9 @@ import static com.codingmates.intellij.selinux.cil.lang.core.CilTypes.*;
 import static com.codingmates.intellij.selinux.cil.lang.core.parser.CilParserUtil.*;
 
 final class CilStatementParser {
-
-    private final CilTopLevelElementTypeMap topLevelElementMap;
     private final PsiBuilder builder;
 
-    CilStatementParser(CilTopLevelElementTypeMap topLevelElementMap, PsiBuilder builder) {
-        this.topLevelElementMap = topLevelElementMap;
+    CilStatementParser(PsiBuilder builder) {
         this.builder = builder;
     }
 
@@ -293,10 +290,10 @@ final class CilStatementParser {
                 try {
                     expect(builder, LPAREN, "parser.error.expected_lparen");
                     expect(builder, IDENTIFIER, "parser.error.expected_macro_parameter_type");
-                    expect(builder, IDENTIFIER, "parser.error.expected_macro_parameter_name");
+                    parseSymbol("parser.error.expected_macro_parameter_name");
                     expect(builder, RPAREN, "parser.error.expected_rparen");
 
-                    argumentMarker.done(MACRO_ARGUMENT);
+                    argumentMarker.done(MACRO_PARAMETER_DECL);
                 } catch (CilParserException ex) {
                     rollbackAndRecover(argumentMarker, ex.getMessage());
                 }
@@ -395,7 +392,7 @@ final class CilStatementParser {
 
             String normalizedKeyword = keyword.trim().toLowerCase();
 
-            CilTopLevelElementType type = topLevelElementMap.get(normalizedKeyword)
+            CilTopLevelElementType type = CilTopLevelElementTypeMap.get(normalizedKeyword)
                     .orElseThrow(() -> parserError("parser.error.invalid_statement_keyword",
                             normalizedKeyword));
 

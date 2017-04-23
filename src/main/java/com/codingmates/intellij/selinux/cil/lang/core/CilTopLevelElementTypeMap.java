@@ -24,7 +24,6 @@ import static com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenc
  * @author gtierney
  */
 public final class CilTopLevelElementTypeMap {
-
     /**
      * A type enforcement rule which grants the source type the given permissions on the target
      * type.
@@ -349,9 +348,9 @@ public final class CilTopLevelElementTypeMap {
      * A mapping of statement keywords to {@link CilTopLevelElementType} containing parse hints and
      * {@link ElementType} information.
      */
-    private final ImmutableMap<String, CilTopLevelElementType> keywordToTypeMap;
+    private static final ImmutableMap<String, CilTopLevelElementType> keywordToTypeMap;
 
-    public CilTopLevelElementTypeMap() {
+    static {
         ImmutableMap.Builder<String, CilTopLevelElementType> keywordToTypeMapBuilder = ImmutableMap
                 .builder();
 
@@ -413,8 +412,8 @@ public final class CilTopLevelElementTypeMap {
                 CilTypeEnforcementRuleImpl::new);
     }
 
-    private void append(ImmutableMap.Builder<String, CilTopLevelElementType> builder,
-                        IElementType type) {
+    private static void append(ImmutableMap.Builder<String, CilTopLevelElementType> builder,
+                               IElementType type) {
         Preconditions.checkArgument(type instanceof CilTopLevelElementType,
                 "Element type must be an instance " +
                         "of CilTopLevelElementType.");
@@ -423,7 +422,7 @@ public final class CilTopLevelElementTypeMap {
         builder.put(cilType.getKeyword().toLowerCase(), cilType);
     }
 
-    private void appendClassAndPermissionElements(
+    private static void appendClassAndPermissionElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, CLASSCOMMON_STATEMENT);
         append(builder, CLASS_DECLARATION);
@@ -435,7 +434,7 @@ public final class CilTopLevelElementTypeMap {
         append(builder, COMMON_DECLARATION);
     }
 
-    private void appendConditionalElements(
+    private static void appendConditionalElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, BOOLEAN_DECLARATION);
         append(builder, BOOLEANIF_STATEMENT);
@@ -443,13 +442,13 @@ public final class CilTopLevelElementTypeMap {
         append(builder, TUNABLEIF_STATEMENT);
     }
 
-    private void appendConstrainElements(
+    private static void appendConstrainElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, CONSTRAIN_STATEMENT);
         append(builder, MLSCONSTRAIN_STATEMENT);
     }
 
-    private void appendContainerElements(
+    private static void appendContainerElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, BLOCKABSTRACT_STATEMENT);
         append(builder, BLOCKINHERIT_STATEMENT);
@@ -458,12 +457,12 @@ public final class CilTopLevelElementTypeMap {
         append(builder, OPTIONAL_DECLARATION);
     }
 
-    private void appendContextElements(
+    private static void appendContextElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, CONTEXT_DECLARATION);
     }
 
-    private void appendInitialSidElements(
+    private static void appendInitialSidElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, INITIALSID_DECLARATION);
         append(builder, SID_DECLARATION);
@@ -471,18 +470,18 @@ public final class CilTopLevelElementTypeMap {
         append(builder, SIDORDER_STATEMENT);
     }
 
-    private void appendLabelingElements(
+    private static void appendLabelingElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, FILECON_STATEMENT);
     }
 
-    private void appendMacroStatements(
+    private static void appendMacroStatements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, CALL_STATEMENT);
         append(builder, MACRO_DECLARATION);
     }
 
-    private void appendMultiLevelSecurityElements(
+    private static void appendMultiLevelSecurityElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, CATEGORY_DECLARATION);
         append(builder, CATEGORYALIAS_DECLARATION);
@@ -498,7 +497,7 @@ public final class CilTopLevelElementTypeMap {
 //        add("categoryset", CilStatementKind.NAMED_SET_MODIFIER, SYM_SET_MODIFIER);
     }
 
-    private void appendRoleElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
+    private static void appendRoleElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, ROLE_DECLARATION);
         append(builder, ROLEALLOW_STATEMENT);
         append(builder, ROLEATTRIBUTE_DECLARATION);
@@ -508,7 +507,7 @@ public final class CilTopLevelElementTypeMap {
         append(builder, ROLETYPE_STATEMENT);
     }
 
-    private void appendTypeElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
+    private static void appendTypeElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, TYPE_DECLARATION);
         append(builder, TYPEALIAS_DECLARATION);
         append(builder, TYPEALIASACTUAL_STATEMENT);
@@ -521,7 +520,7 @@ public final class CilTopLevelElementTypeMap {
         append(builder, TYPETRANSITION_STATEMENT);
     }
 
-    private void appendTypeEnforcementRuleElements(
+    private static void appendTypeEnforcementRuleElements(
             ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, ALLOW_STATEMENT);
         append(builder, AUDITALLOW_STATEMENT);
@@ -529,11 +528,11 @@ public final class CilTopLevelElementTypeMap {
         append(builder, NEVERALLOW_STATEMENT);
     }
 
-    private void appendUserElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
+    private static void appendUserElements(ImmutableMap.Builder<String, CilTopLevelElementType> builder) {
         append(builder, USER_DECLARATION);
     }
 
-    public Optional<CilTopLevelElementType> get(String keyword) {
+    public static Optional<CilTopLevelElementType> get(String keyword) {
         return Optional.ofNullable(keywordToTypeMap.get(keyword.toLowerCase()));
     }
 }

@@ -9,14 +9,12 @@ import org.jetbrains.annotations.NotNull;
 
 public final class CilParser implements PsiParser {
 
-    private final CilTopLevelElementTypeMap toplevelElementMap = new CilTopLevelElementTypeMap();
 
     @NotNull
     @Override
     public ASTNode parse(@NotNull IElementType root, @NotNull PsiBuilder builder) {
         final PsiBuilder.Marker rootMarker = builder.mark();
-        final CilStatementParser statementParser = new CilStatementParser(toplevelElementMap,
-                builder);
+        final CilStatementParser statementParser = new CilStatementParser(builder);
 
         statementParser.parseStatements();
 

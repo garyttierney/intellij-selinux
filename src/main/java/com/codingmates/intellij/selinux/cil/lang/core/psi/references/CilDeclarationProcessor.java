@@ -1,5 +1,7 @@
 package com.codingmates.intellij.selinux.cil.lang.core.psi.references;
 
+import com.codingmates.intellij.selinux.cil.lang.core.CilTypes;
+import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilMacroParameter;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceRole;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilCompositeElement;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilDeclarationElement;
@@ -61,6 +63,11 @@ public class CilDeclarationProcessor extends BaseScopeProcessor {
 
         if (origin.isEquivalentTo(element)) {
             return true;
+        }
+
+        if (elementType == CilTypes.MACRO_PARAMETER_DECL) {
+            CilMacroParameter parameter = (CilMacroParameter) element;
+            elementType = parameter.getParameterType();
         }
 
         if (nameRole.applicable(elementType)) {

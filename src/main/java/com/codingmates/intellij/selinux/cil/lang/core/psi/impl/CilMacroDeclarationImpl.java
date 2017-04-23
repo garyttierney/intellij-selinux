@@ -3,6 +3,7 @@ package com.codingmates.intellij.selinux.cil.lang.core.psi.impl;
 import com.codingmates.intellij.selinux.cil.lang.core.CilTokenTypes;
 import com.codingmates.intellij.selinux.cil.lang.core.CilTypes;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilMacroDeclaration;
+import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilMacroParameter;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilDeclarationStubElementBase;
 import com.codingmates.intellij.selinux.cil.lang.core.stubs.impl.CilMacroStub;
 import com.intellij.lang.ASTNode;
@@ -26,7 +27,7 @@ public class CilMacroDeclarationImpl extends CilDeclarationStubElementBase<CilMa
     }
 
     public List<CilMacroParameterImpl> getArgumentList() {
-        return findChildrenByType(CilTypes.MACRO_ARGUMENT);
+        return findChildrenByType(CilTypes.MACRO_PARAMETER_DECL);
     }
 
     @Nullable
@@ -38,5 +39,10 @@ public class CilMacroDeclarationImpl extends CilDeclarationStubElementBase<CilMa
     @Override
     public PsiElement setName(@NotNull String name) throws IncorrectOperationException {
         return this;
+    }
+
+    @Override
+    public List<CilMacroParameter> getParameters() {
+        return findChildrenByType(CilTypes.MACRO_PARAMETER_DECL);
     }
 }

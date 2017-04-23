@@ -25,7 +25,7 @@ public class CilTypes {
             "level_range_expr", CilLevelRangeExpressionImpl::new);
     public static final IElementType LIST_EXPR = new CilCompositeElementType("list_expr",
             CilListExpressionImpl::new);
-    public static final IElementType MACRO_ARGUMENT = new CilCompositeElementType("macro_argument",
+    public static final IElementType MACRO_PARAMETER_DECL = new CilCompositeElementType("macro_argument",
             CilMacroParameterImpl::new);
     public static final IElementType NAMED_LIST_ITEM_DECLARATION = new CilNamedListItemDeclarationStubElementType(
             "<named list item>");

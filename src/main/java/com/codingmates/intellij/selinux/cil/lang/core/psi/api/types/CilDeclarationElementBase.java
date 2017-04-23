@@ -4,8 +4,6 @@ import com.codingmates.intellij.selinux.cil.ide.codegen.CilCodeGenerationFactory
 import com.codingmates.intellij.selinux.cil.lang.core.CilTokenTypes;
 import com.intellij.lang.ASTNode;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.ResolveState;
-import com.intellij.psi.scope.PsiScopeProcessor;
 import com.intellij.util.IncorrectOperationException;
 import org.jetbrains.annotations.NotNull;
 
@@ -31,6 +29,10 @@ public abstract class CilDeclarationElementBase extends CilCompositeElementBase 
         return getNameIdentifier().getTextOffset();
     }
 
+    @NotNull
+    public String getName() {
+        return getNameIdentifier().getText();
+    }
 
     @Override
     public PsiElement setName(@NotNull String name) throws IncorrectOperationException {

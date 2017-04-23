@@ -1,8 +1,6 @@
 package com.codingmates.intellij.selinux.cil.lang.core.psi.utils;
 
-import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilFile;
-import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilNameModifier;
-import com.codingmates.intellij.selinux.cil.lang.core.psi.api.CilReferenceExpression;
+import com.codingmates.intellij.selinux.cil.lang.core.psi.api.*;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilCompositeElement;
 import com.codingmates.intellij.selinux.cil.lang.core.psi.api.types.CilDeclarationElement;
 import com.codingmates.intellij.selinux.cil.lang.core.stubs.index.CilAllNamesIndex;
@@ -125,6 +123,17 @@ public final class CilResolveUtil {
 
         if (!processScopedDeclarations(processor, scope, state)) {
             return false;
+        }
+
+        if (scope instanceof CilMacroDeclaration) {
+            CilMacroDeclaration macroDeclaration = (CilMacroDeclaration) scope;
+            List<CilMacroParameter> macroParameters = macroDeclaration.getParameters();
+
+            for (PsiElement param : macroParameters) {
+                if (!processor.execute(param, state)) {
+                    return false;
+                }
+            }
         }
 
         if (searchInherited) {
